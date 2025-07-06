@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "argon2": "^0.43.0",
+    "crypto": "^1.0.1",
     "expo": "~53.0.17",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
