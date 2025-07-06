@@ -9,12 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "argon2": "^0.43.0",
-    "crypto": "^1.0.1",
     "expo": "~53.0.17",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-native": "0.79.5"
+    "react-native": "0.79.5",
+    "react-native-quick-crypto": "^0.7.15"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
