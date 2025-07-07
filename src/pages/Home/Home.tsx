@@ -8,17 +8,19 @@ import { generateHash } from "../../utils/crypto/encrypt"
 import { setStringAsync } from "expo-clipboard"
 
 const Home: React.FC = () => {
-  const [phrase, setPhrase] = useState<string>()
+  const [passphrase, setPassphrase] = useState<string>()
+  const [showPassphrase, setShowPassphrase] = useState(false)
 
   const [password, setPassword] = useState<string>()
   const [showPassword, setShowPassword] = useState(false)
 
-  const [hashedPassword, sethashedPassword] = useState("Final Password")
+  const [hashedPassword, sethashedPassword] = useState("Final password")
   const [showHashedPassword, setshowHashedPassword] = useState(false)
 
   useEffect(() => {
-    if (password && phrase) sethashedPassword(generateHash(password, phrase))
-  }, [password, phrase])
+    if (password && passphrase)
+      sethashedPassword(generateHash(password, passphrase))
+  }, [password, passphrase])
 
   const copyHashedPassword = async () => {
     await setStringAsync(hashedPassword)
@@ -37,11 +39,13 @@ const Home: React.FC = () => {
 
       <ScrollView contentContainerStyle={homeStyles.content}>
         <AppTextInput
-          placeholder="Phrase"
+          placeholder="Passphrase"
           placeholderTextColor={colors.text}
           style={globalStyles.input}
-          value={phrase}
-          onChangeText={setPhrase}
+          value={passphrase}
+          onChangeText={setPassphrase}
+          showValue={showPassphrase}
+          setShowValue={setShowPassphrase}
         />
 
         <AppTextInput
