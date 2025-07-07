@@ -1,24 +1,24 @@
 import { TextInput, TextInputProps, TouchableOpacity, View } from "react-native"
 import { colors } from "../../themes/Dark"
-import { Dispatch, SetStateAction } from "react"
+import { useState } from "react"
 import { Feather } from "@expo/vector-icons"
 import { appTextInputStyles } from "./AppTextInput.styles"
 
 type AppTextInputProps = TextInputProps & {
-  showValue?: boolean
-  setShowValue?: Dispatch<SetStateAction<boolean>>
+  secureTextEntry?: boolean
   copyFunction?: () => Promise<void>
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
-  showValue,
-  setShowValue,
+  secureTextEntry,
   copyFunction,
   ...rest
 }: AppTextInputProps) => {
+  const [showValue, setShowValue] = useState(false)
+
   return (
     <View style={appTextInputStyles.rowContainer}>
-      <TextInput {...rest} />
+      <TextInput secureTextEntry={showValue} {...rest} />
 
       {copyFunction !== undefined && (
         <TouchableOpacity onPress={() => copyFunction()}>
@@ -26,7 +26,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
         </TouchableOpacity>
       )}
 
-      {showValue !== undefined && setShowValue && (
+      {secureTextEntry !== undefined && setShowValue && (
         <TouchableOpacity onPress={() => setShowValue(!showValue)}>
           <Feather
             name={showValue ? "eye-off" : "eye"}

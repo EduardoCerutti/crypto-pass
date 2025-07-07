@@ -9,13 +9,8 @@ import { setStringAsync } from "expo-clipboard"
 
 const Home: React.FC = () => {
   const [passphrase, setPassphrase] = useState<string>()
-  const [showPassphrase, setShowPassphrase] = useState(false)
-
   const [password, setPassword] = useState<string>()
-  const [showPassword, setShowPassword] = useState(false)
-
   const [hashedPassword, sethashedPassword] = useState("Final password")
-  const [showHashedPassword, setshowHashedPassword] = useState(false)
 
   useEffect(() => {
     if (password && passphrase)
@@ -43,9 +38,8 @@ const Home: React.FC = () => {
           placeholderTextColor={colors.text}
           style={globalStyles.input}
           value={passphrase}
+          secureTextEntry={true}
           onChangeText={setPassphrase}
-          showValue={showPassphrase}
-          setShowValue={setShowPassphrase}
         />
 
         <AppTextInput
@@ -53,19 +47,15 @@ const Home: React.FC = () => {
           placeholderTextColor={colors.text}
           style={globalStyles.input}
           value={password}
+          secureTextEntry={true}
           onChangeText={setPassword}
-          secureTextEntry={showPassword}
-          showValue={showPassword}
-          setShowValue={setShowPassword}
         />
 
         <AppTextInput
           value={hashedPassword}
           style={globalStyles.text}
-          secureTextEntry={showHashedPassword}
           editable={false}
-          showValue={showHashedPassword}
-          setShowValue={setshowHashedPassword}
+          secureTextEntry={true}
           copyFunction={copyHashedPassword}
         />
       </ScrollView>
