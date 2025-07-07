@@ -7,16 +7,25 @@ import { appTextInputStyles } from "./AppTextInput.styles"
 type AppTextInputProps = TextInputProps & {
   showValue?: boolean
   setShowValue?: Dispatch<SetStateAction<boolean>>
+  copyFunction?: () => Promise<void>
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
   showValue,
   setShowValue,
+  copyFunction,
   ...rest
 }: AppTextInputProps) => {
   return (
     <View style={appTextInputStyles.rowContainer}>
       <TextInput {...rest} />
+
+      {copyFunction !== undefined && (
+        <TouchableOpacity onPress={() => copyFunction()}>
+          <Feather name="copy" size={20} color={colors.text} />
+        </TouchableOpacity>
+      )}
+
       {showValue !== undefined && setShowValue && (
         <TouchableOpacity onPress={() => setShowValue(!showValue)}>
           <Feather
