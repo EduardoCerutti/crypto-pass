@@ -1,8 +1,14 @@
-import { Image, KeyboardAvoidingView, Platform, ScrollView } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native"
 import { homeStyles } from "./Home.styles"
 import { globalStyles } from "../../styles/Global"
 import { colors } from "../../themes/Dark"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import AppTextInput from "../../components/AppTextInput/AppTextInput"
 import { generateHash } from "../../utils/crypto/encrypt"
 import { setStringAsync } from "expo-clipboard"
@@ -64,13 +70,17 @@ const Home: React.FC = () => {
           onChangeText={setPassword}
         />
 
-        <AppTextInput
-          value={hashedPassword}
-          style={globalStyles.text}
-          editable={false}
-          secureTextEntry={true}
-          copyFunction={copyHashedPassword}
-        />
+        {isGenerating ? (
+          <ActivityIndicator size="large" color={colors.spinner} />
+        ) : (
+          <AppTextInput
+            value={hashedPassword}
+            style={globalStyles.text}
+            editable={false}
+            secureTextEntry={true}
+            copyFunction={copyHashedPassword}
+          />
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   )
