@@ -12,10 +12,23 @@ const Home: React.FC = () => {
   const [password, setPassword] = useState<string>()
   const [hashedPassword, sethashedPassword] = useState("Final password")
 
-  useEffect(() => {
-    if (password && passphrase)
-      sethashedPassword(generateHash(password, passphrase))
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const generateHashedPassword = useCallback(() => {
+    if (password && passphrase) {
+      setIsGenerating(true)
+
+      requestIdleCallback(() => {
+        const result = generateHash(password, passphrase)
+        sethashedPassword(result)
+        setIsGenerating(false)
+      })
+    }
   }, [password, passphrase])
+
+  useEffect(() => {
+    generateHashedPassword()
+  }, [generateHashedPassword])
 
   const copyHashedPassword = async () => {
     await setStringAsync(hashedPassword)
