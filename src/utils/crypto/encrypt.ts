@@ -5,7 +5,7 @@ export function generateHash(password: string, phrase: string) {
 
   const passwordHash = PBKDF2(password, phraseHash, {
     keySize: 32 / 4,
-    iterations: 1000,
+    iterations: 10000,
   })
 
   return enc.Base64.stringify(passwordHash)
