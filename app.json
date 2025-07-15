@@ -24,10 +24,16 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000017"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "techstuff.cryptopass"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "265da5e9-9b76-4b0a-9760-993a839815c2"
+      }
     }
   }
 }
