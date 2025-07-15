@@ -27,3 +27,7 @@ $ npx expo start
 # wsl
 $ npx expo start --tunnel
 ```
+
+## Building the app
+
+To build the app check this docs here: [Creating your first build](https://docs.expo.dev/build/setup/)
