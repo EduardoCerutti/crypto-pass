@@ -18,10 +18,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000017"
       },
-      "blockedPermissions": [
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.DETECT_SCREEN_CAPTURE"
-      ],
+      "blockedPermissions": ["android.permission.READ_EXTERNAL_STORAGE"],
       "package": "techstuff.cryptopass"
     },
     "web": {
