@@ -17,8 +17,9 @@ function derive(password: string, salt: lib.WordArray) {
   return enc.Base64.stringify(key)
 }
 
+// "  My Bank " and "mybank" must derive the same password
 export function normalizeSite(site: string) {
-  return site.normalize("NFC").trim().toLowerCase()
+  return site.normalize("NFC").replace(/\s+/g, "").toLowerCase()
 }
 
 /** Legacy algorithm: one password for every site. */
