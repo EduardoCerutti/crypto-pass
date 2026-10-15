@@ -25,6 +25,10 @@
         "backgroundColor": "#000017"
       },
       "edgeToEdgeEnabled": true,
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.DETECT_SCREEN_CAPTURE"
+      ],
       "package": "techstuff.cryptopass"
     },
     "web": {

@@ -21,4 +21,18 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 16,
   },
+  button: {
+    backgroundColor: colors.input.border,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.4,
+  },
+  buttonText: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: "700",
+  },
 })

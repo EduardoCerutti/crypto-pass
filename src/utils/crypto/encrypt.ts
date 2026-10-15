@@ -1,12 +1,47 @@
-import { PBKDF2, SHA256, enc } from "crypto-js"
+import { PBKDF2, SHA256, algo, enc, lib } from "crypto-js"
 
-export function generateHash(password: string, phrase: string) {
-  const phraseHash = SHA256(phrase)
+// Changing any of these values changes every generated password
+const ITERATIONS = 10000
+const KEY_SIZE_WORDS = 256 / 32
 
-  const passwordHash = PBKDF2(password, phraseHash, {
-    keySize: 32 / 4,
-    iterations: 10000,
+export type AlgorithmVersion = "v1" | "v2"
+
+function derive(password: string, salt: lib.WordArray) {
+  const key = PBKDF2(password.normalize("NFC"), salt, {
+    keySize: KEY_SIZE_WORDS,
+    iterations: ITERATIONS,
+    // Set explicitly: crypto-js <= 4.1 defaulted to SHA1
+    hasher: algo.SHA256,
   })
 
-  return enc.Base64.stringify(passwordHash)
+  return enc.Base64.stringify(key)
+}
+
+export function normalizeSite(site: string) {
+  return site.normalize("NFC").trim().toLowerCase()
+}
+
+/** Legacy algorithm: one password for every site. */
+export function generateHash(password: string, phrase: string) {
+  return derive(password, SHA256(phrase.normalize("NFC")))
+}
+
+/** One password per site; bump the counter to rotate a single site's password. */
+export function generateHashV2(
+  password: string,
+  phrase: string,
+  site: string,
+  counter: number
+) {
+  // JSON array encoding keeps the fields unambiguous ("ab"+"c" != "a"+"bc")
+  const salt = SHA256(
+    JSON.stringify([
+      "crypto-pass-v2",
+      phrase.normalize("NFC"),
+      normalizeSite(site),
+      counter,
+    ])
+  )
+
+  return derive(password, salt)
 }
