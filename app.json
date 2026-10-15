@@ -42,7 +42,8 @@
           "backgroundColor": "#000017",
           "imageWidth": 200
         }
-      ]
+      ],
+      "react-native-quick-crypto"
     ]
   }
 }
