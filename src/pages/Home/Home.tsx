@@ -187,7 +187,7 @@ const Home: React.FC = () => {
           <View style={homeStyles.row}>
             <View style={homeStyles.siteInput}>
               <AppTextInput
-                placeholder="Site (e.g. gmail.com)"
+                placeholder="Site name (e.g. gmail)"
                 placeholderTextColor={colors.text}
                 style={globalStyles.input}
                 value={site}
