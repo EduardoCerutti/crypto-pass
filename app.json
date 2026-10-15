@@ -6,12 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/logo-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000017"
-    },
     "updates": {
       "enabled": true,
       "fallbackToCacheTimeout": 0
@@ -24,7 +18,6 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000017"
       },
-      "edgeToEdgeEnabled": true,
       "blockedPermissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.DETECT_SCREEN_CAPTURE"
@@ -38,6 +31,18 @@
       "eas": {
         "projectId": "265da5e9-9b76-4b0a-9760-993a839815c2"
       }
-    }
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/logo-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#000017",
+          "imageWidth": 200
+        }
+      ]
+    ]
   }
 }

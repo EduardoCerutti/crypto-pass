@@ -73,12 +73,12 @@ const Home: React.FC = () => {
   }, [])
 
   // Any input change makes the shown result stale
-  useEffect(() => {
+  const resetResult = () => {
     generationId.current++
     setHashedPassword(undefined)
     setIsGenerating(false)
     setIsCopied(false)
-  }, [version, passphrase, password, site, counter])
+  }
 
   const counterValue = parseCounter(counter)
   const canGenerate =
@@ -146,7 +146,10 @@ const Home: React.FC = () => {
                   option.version === version &&
                     homeStyles.selectorOptionSelected,
                 ]}
-                onPress={() => setVersion(option.version)}
+                onPress={() => {
+                  setVersion(option.version)
+                  resetResult()
+                }}
               >
                 <Text style={homeStyles.selectorText}>{option.label}</Text>
               </TouchableOpacity>
@@ -162,7 +165,10 @@ const Home: React.FC = () => {
           style={globalStyles.input}
           value={passphrase}
           secureTextEntry={true}
-          onChangeText={setPassphrase}
+          onChangeText={(value) => {
+            setPassphrase(value)
+            resetResult()
+          }}
         />
 
         <AppTextInput
@@ -171,7 +177,10 @@ const Home: React.FC = () => {
           style={globalStyles.input}
           value={password}
           secureTextEntry={true}
-          onChangeText={setPassword}
+          onChangeText={(value) => {
+            setPassword(value)
+            resetResult()
+          }}
         />
 
         {version === "v2" && (
@@ -182,7 +191,10 @@ const Home: React.FC = () => {
                 placeholderTextColor={colors.text}
                 style={globalStyles.input}
                 value={site}
-                onChangeText={setSite}
+                onChangeText={(value) => {
+                  setSite(value)
+                  resetResult()
+                }}
               />
             </View>
 
@@ -194,7 +206,10 @@ const Home: React.FC = () => {
                 value={counter}
                 keyboardType="number-pad"
                 maxLength={6}
-                onChangeText={setCounter}
+                onChangeText={(value) => {
+                  setCounter(value)
+                  resetResult()
+                }}
               />
             </View>
           </View>
