@@ -39,6 +39,12 @@ const algorithmOptions: {
     description: "Password + passphrase. Same result for every site.",
   },
   {
+    version: "v2-fast",
+    label: "v2 fast",
+    description:
+      "Like v2 with half the memory: about twice as fast, slightly weaker. Gives different passwords than v2.",
+  },
+  {
     version: "v2",
     label: "v2",
     description:
@@ -97,7 +103,13 @@ const Home: React.FC = () => {
       const result =
         version === "v1"
           ? await generateHash(password, passphrase)
-          : await generateHashV2(password, passphrase, site, counterValue!)
+          : await generateHashV2(
+              password,
+              passphrase,
+              site,
+              counterValue!,
+              version
+            )
 
       if (id !== generationId.current) return
 
@@ -189,7 +201,7 @@ const Home: React.FC = () => {
           }}
         />
 
-        {version === "v2" && (
+        {version !== "v1" && (
           <View style={homeStyles.row}>
             <View style={homeStyles.siteInput}>
               <AppTextInput
