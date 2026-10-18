@@ -28,28 +28,10 @@ import {
 
 const CLIPBOARD_CLEAR_SECONDS = 30
 
-const algorithmOptions: {
-  version: AlgorithmVersion
-  label: string
-  description: string
-}[] = [
-  {
-    version: "v1",
-    label: "v1 (legacy)",
-    description: "Password + passphrase. Same result for every site.",
-  },
-  {
-    version: "v2-fast",
-    label: "v2 fast",
-    description:
-      "Like v2 with half the memory: about twice as fast, slightly weaker. Gives different passwords than v2.",
-  },
-  {
-    version: "v2",
-    label: "v2",
-    description:
-      "Adds site and counter. Different result per site; raise the counter to change one site's password.",
-  },
+const algorithmOptions: { version: AlgorithmVersion; label: string }[] = [
+  { version: "v1", label: "v1 (legacy)" },
+  { version: "v2-fast", label: "v2 fast" },
+  { version: "v2", label: "v2" },
 ]
 
 function parseCounter(counter: string) {
@@ -137,8 +119,6 @@ const Home: React.FC = () => {
     }, CLIPBOARD_CLEAR_SECONDS * 1000)
   }
 
-  const selectedOption = algorithmOptions.find((o) => o.version === version)!
-
   return (
     <KeyboardAvoidingView
       style={homeStyles.home}
@@ -154,27 +134,22 @@ const Home: React.FC = () => {
         contentContainerStyle={homeStyles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={homeStyles.selectorContainer}>
-          <View style={homeStyles.selector}>
-            {algorithmOptions.map((option) => (
-              <TouchableOpacity
-                key={option.version}
-                style={[
-                  homeStyles.selectorOption,
-                  option.version === version &&
-                    homeStyles.selectorOptionSelected,
-                ]}
-                onPress={() => {
-                  setVersion(option.version)
-                  resetResult()
-                }}
-              >
-                <Text style={homeStyles.selectorText}>{option.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <Text style={homeStyles.hint}>{selectedOption.description}</Text>
+        <View style={homeStyles.selector}>
+          {algorithmOptions.map((option) => (
+            <TouchableOpacity
+              key={option.version}
+              style={[
+                homeStyles.selectorOption,
+                option.version === version && homeStyles.selectorOptionSelected,
+              ]}
+              onPress={() => {
+                setVersion(option.version)
+                resetResult()
+              }}
+            >
+              <Text style={homeStyles.selectorText}>{option.label}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <AppTextInput

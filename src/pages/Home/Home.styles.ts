@@ -15,9 +15,6 @@ export const homeStyles = StyleSheet.create({
   content: {
     gap: 40,
   },
-  selectorContainer: {
-    gap: 10,
-  },
   selector: {
     flexDirection: "row",
     borderColor: colors.input.border,
