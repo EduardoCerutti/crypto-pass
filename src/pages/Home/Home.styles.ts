@@ -15,10 +15,13 @@ export const homeStyles = StyleSheet.create({
   content: {
     gap: 40,
   },
-  selectorContainer: {
-    gap: 10,
+  selectorRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
   selector: {
+    flex: 1,
     flexDirection: "row",
     borderColor: colors.input.border,
     borderWidth: 1,

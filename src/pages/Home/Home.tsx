@@ -14,6 +14,9 @@ import { globalStyles } from "../../styles/Global"
 import { colors } from "../../themes/Dark"
 import { useEffect, useRef, useState } from "react"
 import AppTextInput from "../../components/AppTextInput/AppTextInput"
+import Tour from "../../components/Tour/Tour"
+import { hasSeenTour, markTourSeen } from "../../utils/storage/tour"
+import { Feather } from "@expo/vector-icons"
 import {
   AlgorithmVersion,
   generateHash,
@@ -28,28 +31,10 @@ import {
 
 const CLIPBOARD_CLEAR_SECONDS = 30
 
-const algorithmOptions: {
-  version: AlgorithmVersion
-  label: string
-  description: string
-}[] = [
-  {
-    version: "v1",
-    label: "v1 (legacy)",
-    description: "Password + passphrase. Same result for every site.",
-  },
-  {
-    version: "v2-fast",
-    label: "v2 fast",
-    description:
-      "Like v2 with half the memory: about twice as fast, slightly weaker. Gives different passwords than v2.",
-  },
-  {
-    version: "v2",
-    label: "v2",
-    description:
-      "Adds site and counter. Different result per site; raise the counter to change one site's password.",
-  },
+const algorithmOptions: { version: AlgorithmVersion; label: string }[] = [
+  { version: "v1", label: "v1 (legacy)" },
+  { version: "v2-fast", label: "v2 fast" },
+  { version: "v2", label: "v2" },
 ]
 
 function parseCounter(counter: string) {
@@ -64,6 +49,7 @@ const Home: React.FC = () => {
   const [counter, setCounter] = useState("1")
   const [hashedPassword, setHashedPassword] = useState<string>()
   const [isCopied, setIsCopied] = useState(false)
+  const [isTourVisible, setIsTourVisible] = useState(() => !hasSeenTour())
 
   const [isGenerating, setIsGenerating] = useState(false)
 
@@ -137,8 +123,6 @@ const Home: React.FC = () => {
     }, CLIPBOARD_CLEAR_SECONDS * 1000)
   }
 
-  const selectedOption = algorithmOptions.find((o) => o.version === version)!
-
   return (
     <KeyboardAvoidingView
       style={homeStyles.home}
@@ -150,11 +134,19 @@ const Home: React.FC = () => {
         style={homeStyles.image}
       />
 
+      <Tour
+        visible={isTourVisible}
+        onFinish={() => {
+          markTourSeen()
+          setIsTourVisible(false)
+        }}
+      />
+
       <ScrollView
         contentContainerStyle={homeStyles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={homeStyles.selectorContainer}>
+        <View style={homeStyles.selectorRow}>
           <View style={homeStyles.selector}>
             {algorithmOptions.map((option) => (
               <TouchableOpacity
@@ -174,7 +166,12 @@ const Home: React.FC = () => {
             ))}
           </View>
 
-          <Text style={homeStyles.hint}>{selectedOption.description}</Text>
+          <TouchableOpacity
+            accessibilityLabel="Show the app tour"
+            onPress={() => setIsTourVisible(true)}
+          >
+            <Feather name="help-circle" size={24} color={colors.text} />
+          </TouchableOpacity>
         </View>
 
         <AppTextInput
