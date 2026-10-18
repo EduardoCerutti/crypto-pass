@@ -20,6 +20,14 @@ $ npm install
 
 ## Running the app
 
+The app uses native crypto ([react-native-quick-crypto](https://github.com/margelo/react-native-quick-crypto)), so it does not run in Expo Go. Build and install a development client once (and again whenever native dependencies change):
+
+```bash
+$ eas build --profile development --platform android
+```
+
+Then start the dev server and open the project from the installed development client:
+
 ```bash
 # ubuntu
 $ npx expo start

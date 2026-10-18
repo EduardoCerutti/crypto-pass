@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -36,6 +37,12 @@ const algorithmOptions: {
     version: "v1",
     label: "v1 (legacy)",
     description: "Password + passphrase. Same result for every site.",
+  },
+  {
+    version: "v2-fast",
+    label: "v2 fast",
+    description:
+      "Like v2 with half the memory: about twice as fast, slightly weaker. Gives different passwords than v2.",
   },
   {
     version: "v2",
@@ -86,24 +93,35 @@ const Home: React.FC = () => {
     !!passphrase &&
     (version === "v1" || (!!normalizeSite(site) && counterValue !== undefined))
 
-  const generateHashedPassword = () => {
+  const generateHashedPassword = async () => {
     if (!canGenerate) return
 
     const id = ++generationId.current
     setIsGenerating(true)
 
-    requestIdleCallback(() => {
+    try {
       const result =
         version === "v1"
-          ? generateHash(password, passphrase)
-          : generateHashV2(password, passphrase, site, counterValue!)
+          ? await generateHash(password, passphrase)
+          : await generateHashV2(
+              password,
+              passphrase,
+              site,
+              counterValue!,
+              version
+            )
 
       if (id !== generationId.current) return
 
       setHashedPassword(result)
       setIsCopied(false)
-      setIsGenerating(false)
-    })
+    } catch (error) {
+      if (id !== generationId.current) return
+
+      Alert.alert("Could not generate password", String(error))
+    } finally {
+      if (id === generationId.current) setIsGenerating(false)
+    }
   }
 
   const copyHashedPassword = async () => {
@@ -183,7 +201,7 @@ const Home: React.FC = () => {
           }}
         />
 
-        {version === "v2" && (
+        {version !== "v1" && (
           <View style={homeStyles.row}>
             <View style={homeStyles.siteInput}>
               <AppTextInput

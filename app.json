@@ -18,10 +18,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#000017"
       },
-      "blockedPermissions": [
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.DETECT_SCREEN_CAPTURE"
-      ],
+      "blockedPermissions": ["android.permission.READ_EXTERNAL_STORAGE"],
       "package": "techstuff.cryptopass"
     },
     "web": {
@@ -42,7 +39,8 @@
           "backgroundColor": "#000017",
           "imageWidth": 200
         }
-      ]
+      ],
+      "react-native-quick-crypto"
     ]
   }
 }
