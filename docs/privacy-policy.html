@@ -5,92 +5,259 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Privacy Policy – Crypto Pass</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 1rem;
-        line-height: 1.6;
-        background-color: #000017;
-        color: #cccccc;
+      :root {
+        --background: #000017;
+        --surface: #0a0a25;
+        --border: #2e2e5a;
+        --text: #cccccc;
+        --heading: #f0f0fa;
+        --muted: #8a8aa8;
+        --accent: #9d9df2;
+        --warning: #f2b33d;
+        --warning-surface: rgba(242, 179, 61, 0.08);
       }
-      h1,
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --background: #f5f5fb;
+          --surface: #ffffff;
+          --border: #dcdcec;
+          --text: #33334d;
+          --heading: #0a0a25;
+          --muted: #6b6b85;
+          --accent: #4646b4;
+          --warning: #9a6200;
+          --warning-surface: #fff6e5;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 48px 16px 64px;
+        background-color: var(--background);
+        color: var(--text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      header {
+        margin-bottom: 32px;
+      }
+
+      .app-name {
+        margin: 0 0 4px;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        color: var(--heading);
+        font-size: clamp(28px, 6vw, 40px);
+        line-height: 1.2;
+      }
+
+      .effective-date {
+        display: inline-block;
+        padding: 4px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .intro {
+        margin: 24px 0 0;
+        font-size: 17px;
+      }
+
+      section {
+        margin-top: 16px;
+        padding: 20px 24px;
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
       h2 {
-        color: #2e2e5a;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin: 0 0 8px;
+        color: var(--heading);
+        font-size: 19px;
+        line-height: 1.3;
+      }
+
+      h2 .number {
+        color: var(--accent);
+      }
+
+      section p {
+        margin: 0 0 12px;
+      }
+
+      section p:last-child,
+      section ul:last-child {
+        margin-bottom: 0;
+      }
+
+      ul {
+        margin: 12px 0 0;
+        padding-left: 20px;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      li::marker {
+        color: var(--accent);
+      }
+
+      strong {
+        color: var(--heading);
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      section.disclaimer {
+        background-color: var(--warning-surface);
+        border-color: var(--warning);
+        border-left-width: 4px;
+      }
+
+      section.disclaimer h2,
+      section.disclaimer h2 .number {
+        color: var(--warning);
+      }
+
+
+      @media (max-width: 480px) {
+        body {
+          padding-top: 32px;
+        }
+
+        section {
+          padding: 18px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy – Crypto Pass</h1>
-    <p><strong>Effective Date:</strong> 22/07/2025</p>
+    <main>
+      <header>
+        <p class="app-name">Crypto Pass</p>
+        <h1>Privacy Policy</h1>
+        <span class="effective-date">Effective date: 22/07/2025</span>
 
-    <p>
-      <strong>Crypto Pass</strong> is a utility application designed to help
-      users generate deterministic, encrypted passwords based on a combination
-      of a passphrase and a password input by the user. Your privacy is
-      important to us, and we want to be transparent about how the app works and
-      how your data is handled.
-    </p>
+        <p class="intro">
+          <strong>Crypto Pass</strong> is a utility application designed to help
+          users generate deterministic, encrypted passwords based on a
+          combination of a passphrase and a password input by the user. Your
+          privacy is important to us, and we want to be transparent about how
+          the app works and how your data is handled.
+        </p>
+      </header>
 
-    <h2>1. No Data Collection</h2>
-    <p>
-      Crypto Pass does <strong>not collect</strong>, <strong>store</strong>, or
-      <strong>transmit</strong> any personal data or user input. All operations,
-      including the encryption process, are performed locally on your device.
-    </p>
-    <ul>
-      <li>
-        No personal information (e.g., name, email, location, phone number) is
-        collected.
-      </li>
-      <li>
-        No usage analytics, tracking, or advertising identifiers are used.
-      </li>
-      <li>
-        No data is stored on our servers — in fact,
-        <strong>Crypto Pass does not connect to the internet</strong>.
-      </li>
-    </ul>
+      <section>
+        <h2><span class="number">1.</span> No Data Collection</h2>
+        <p>
+          Crypto Pass does <strong>not collect</strong>, <strong>store</strong>,
+          or <strong>transmit</strong> any personal data or user input. All
+          operations, including the encryption process, are performed locally
+          on your device.
+        </p>
+        <ul>
+          <li>
+            No personal information (e.g., name, email, location, phone number)
+            is collected.
+          </li>
+          <li>
+            No usage analytics, tracking, or advertising identifiers are used.
+          </li>
+          <li>
+            No data is stored on our servers — in fact,
+            <strong>Crypto Pass does not connect to the internet</strong>.
+          </li>
+        </ul>
+      </section>
 
-    <h2>2. Local Encryption Only</h2>
-    <p>
-      All inputs entered into the app (passphrase and password) are used
-      <strong>solely for local encryption</strong> and password generation on
-      your device. Once you close the app or clear the input fields, the data is
-      lost — nothing is saved.
-    </p>
+      <section>
+        <h2><span class="number">2.</span> Local Encryption Only</h2>
+        <p>
+          All inputs entered into the app (passphrase and password) are used
+          <strong>solely for local encryption</strong> and password generation
+          on your device. Once you close the app or clear the input fields, the
+          data is lost — nothing is saved.
+        </p>
+      </section>
 
-    <h2>3. No Third-Party Sharing</h2>
-    <p>
-      Crypto Pass does not share any information with third parties because no
-      information is collected in the first place.
-    </p>
+      <section>
+        <h2><span class="number">3.</span> No Third-Party Sharing</h2>
+        <p>
+          Crypto Pass does not share any information with third parties because
+          no information is collected in the first place.
+        </p>
+      </section>
 
-    <h2>4. Security</h2>
-    <p>
-      The app uses a deterministic encryption algorithm to generate secure
-      passwords based on user inputs. As all processing is done on-device, the
-      security of your data remains fully under your control.
-    </p>
+      <section>
+        <h2><span class="number">4.</span> Security</h2>
+        <p>
+          The app uses a deterministic encryption algorithm to generate secure
+          passwords based on user inputs. As all processing is done on-device,
+          the security of your data remains fully under your control.
+        </p>
+      </section>
 
-    <h2>5. Contact</h2>
-    <p>
-      If you have any questions or concerns regarding this privacy policy, feel
-      free to contact us at:<br />
-      <strong>cerutti.business@gmail.com</strong>
-    </p>
+      <section>
+        <h2><span class="number">5.</span> Contact</h2>
+        <p>
+          If you have any questions or concerns regarding this privacy policy,
+          feel free to contact us at:
+          <a href="mailto:cerutti.business@gmail.com"
+            >cerutti.business@gmail.com</a
+          >
+        </p>
+      </section>
 
-    <h2>6. Disclaimer on Password Recovery</h2>
-    <p>
-      Crypto Pass does not store any user input or generated passwords. All
-      encryption and password generation is performed locally on the user’s
-      device, and no data is retained once the app is closed.
-    </p>
-    <p>
-      As such, we are
-      <strong>not responsible for any loss of access</strong> due to forgotten
-      passphrases or passwords. Users are solely responsible for securely
-      managing and remembering their own credentials.
-    </p>
+      <section class="disclaimer">
+        <h2>
+          <span class="number">6.</span> Disclaimer on Password Recovery
+        </h2>
+        <p>
+          Crypto Pass does not store any user input or generated passwords. All
+          encryption and password generation is performed locally on the user’s
+          device, and no data is retained once the app is closed.
+        </p>
+        <p>
+          As such, we are
+          <strong>not responsible for any loss of access</strong> due to
+          forgotten passphrases or passwords. Users are solely responsible for
+          securely managing and remembering their own credentials.
+        </p>
+      </section>
+
+    </main>
   </body>
 </html>
