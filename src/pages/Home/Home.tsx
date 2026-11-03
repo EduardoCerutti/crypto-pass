@@ -27,12 +27,13 @@ import {
   enableAppSwitcherProtectionAsync,
   preventScreenCaptureAsync,
 } from "expo-screen-capture"
+import { t } from "../../i18n"
 
 const CLIPBOARD_CLEAR_SECONDS = 30
 
-const algorithmOptions: { version: AlgorithmVersion; label: string }[] = [
-  { version: "v2-fast", label: "v2 fast" },
-  { version: "v2", label: "v2" },
+const algorithmOptions: { version: AlgorithmVersion; labelKey: string }[] = [
+  { version: "v2-fast", labelKey: "home.versionFast" },
+  { version: "v2", labelKey: "home.versionStandard" },
 ]
 
 function parseCounter(counter: string) {
@@ -100,7 +101,7 @@ const Home: React.FC = () => {
     } catch (error) {
       if (id !== generationId.current) return
 
-      Alert.alert("Could not generate password", String(error))
+      Alert.alert(t("home.generateError"), String(error))
     } finally {
       if (id === generationId.current) setIsGenerating(false)
     }
@@ -157,13 +158,15 @@ const Home: React.FC = () => {
                   resetResult()
                 }}
               >
-                <Text style={homeStyles.selectorText}>{option.label}</Text>
+                <Text style={homeStyles.selectorText}>
+                  {t(option.labelKey)}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
 
           <TouchableOpacity
-            accessibilityLabel="Show the app tour"
+            accessibilityLabel={t("home.showTour")}
             onPress={() => setIsTourVisible(true)}
           >
             <Feather name="help-circle" size={24} color={colors.text} />
@@ -171,7 +174,7 @@ const Home: React.FC = () => {
         </View>
 
         <AppTextInput
-          placeholder="Passphrase"
+          placeholder={t("home.passphrase")}
           placeholderTextColor={colors.text}
           style={globalStyles.input}
           value={passphrase}
@@ -183,7 +186,7 @@ const Home: React.FC = () => {
         />
 
         <AppTextInput
-          placeholder="Password"
+          placeholder={t("home.password")}
           placeholderTextColor={colors.text}
           style={globalStyles.input}
           value={password}
@@ -197,7 +200,7 @@ const Home: React.FC = () => {
         <View style={homeStyles.row}>
           <View style={homeStyles.siteInput}>
             <AppTextInput
-              placeholder="Site name (e.g. gmail)"
+              placeholder={t("home.site")}
               placeholderTextColor={colors.text}
               style={globalStyles.input}
               value={site}
@@ -232,7 +235,7 @@ const Home: React.FC = () => {
           disabled={!canGenerate || isGenerating}
           onPress={generateHashedPassword}
         >
-          <Text style={globalStyles.buttonText}>Generate</Text>
+          <Text style={globalStyles.buttonText}>{t("home.generate")}</Text>
         </TouchableOpacity>
 
         {isGenerating ? (
@@ -241,7 +244,7 @@ const Home: React.FC = () => {
           <View>
             <AppTextInput
               value={hashedPassword ?? ""}
-              placeholder="Final password"
+              placeholder={t("home.finalPassword")}
               placeholderTextColor={colors.text}
               style={globalStyles.text}
               editable={false}
@@ -251,7 +254,7 @@ const Home: React.FC = () => {
 
             {isCopied && (
               <Text style={homeStyles.hint}>
-                Copied. Clipboard will be cleared in {CLIPBOARD_CLEAR_SECONDS}s.
+                {t("home.copied", { seconds: CLIPBOARD_CLEAR_SECONDS })}
               </Text>
             )}
           </View>
