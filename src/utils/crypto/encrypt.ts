@@ -1,7 +1,6 @@
-import { argon2, createHash, pbkdf2 } from "react-native-quick-crypto"
+import { argon2, createHash } from "react-native-quick-crypto"
 
 // Changing any of these values changes every generated password
-const V1_PBKDF2 = { iterations: 10000, keyLength: 32, digest: "sha256" }
 const V2_ARGON2ID = { passes: 3, parallelism: 4, tagLength: 32 }
 // Memory is the main cost for an attacker's GPU. On a Galaxy M53, the slowest
 // phone in use, v2-fast takes ~0.75 s and v2 ~1.4 s.
@@ -10,8 +9,7 @@ const V2_MEMORY_KIB = {
   v2: 512 * 1024,
 }
 
-export type V2Variant = keyof typeof V2_MEMORY_KIB
-export type AlgorithmVersion = "v1" | V2Variant
+export type AlgorithmVersion = keyof typeof V2_MEMORY_KIB
 
 function utf8(text: string) {
   return new TextEncoder().encode(text.normalize("NFC"))
@@ -26,29 +24,13 @@ export function normalizeSite(site: string) {
   return site.normalize("NFC").replace(/\s+/g, "").toLowerCase()
 }
 
-/** Legacy algorithm: one password for every site. */
-export function generateHash(password: string, phrase: string) {
-  // Runs natively off the JS thread, so the UI does not freeze
-  return new Promise<string>((resolve, reject) => {
-    pbkdf2(
-      utf8(password),
-      sha256(phrase),
-      V1_PBKDF2.iterations,
-      V1_PBKDF2.keyLength,
-      V1_PBKDF2.digest,
-      (err, key) =>
-        err || !key ? reject(err) : resolve(key.toString("base64"))
-    )
-  })
-}
-
 /** One password per site; bump the counter to rotate a single site's password. */
 export function generateHashV2(
   password: string,
   phrase: string,
   site: string,
   counter: number,
-  variant: V2Variant
+  version: AlgorithmVersion
 ) {
   // JSON array encoding keeps the fields unambiguous ("ab"+"c" != "a"+"bc")
   const salt = sha256(
@@ -63,7 +45,7 @@ export function generateHashV2(
       {
         message: utf8(password),
         nonce: salt,
-        memory: V2_MEMORY_KIB[variant],
+        memory: V2_MEMORY_KIB[version],
         ...V2_ARGON2ID,
       },
       (err, tag) => (err ? reject(err) : resolve(tag.toString("base64")))

@@ -27,11 +27,6 @@ const steps: TourStep[] = [
     title: "v2 fast",
     body: "Works like v2 with half the memory: about twice as fast, slightly less resistant to attacks. It creates different passwords than v2, so always use the same version for a site.",
   },
-  {
-    icon: "clock",
-    title: "v1 (legacy)",
-    body: "The original version. It only uses your passphrase and password, so it gives the same password for every site. Use it only for passwords you already created with it.",
-  },
 ]
 
 type TourProps = {
