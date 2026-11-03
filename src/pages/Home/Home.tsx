@@ -19,7 +19,6 @@ import { hasSeenTour, markTourSeen } from "../../utils/storage/tour"
 import { Feather } from "@expo/vector-icons"
 import {
   AlgorithmVersion,
-  generateHash,
   generateHashV2,
   normalizeSite,
 } from "../../utils/crypto/encrypt"
@@ -32,7 +31,6 @@ import {
 const CLIPBOARD_CLEAR_SECONDS = 30
 
 const algorithmOptions: { version: AlgorithmVersion; label: string }[] = [
-  { version: "v1", label: "v1 (legacy)" },
   { version: "v2-fast", label: "v2 fast" },
   { version: "v2", label: "v2" },
 ]
@@ -77,7 +75,8 @@ const Home: React.FC = () => {
   const canGenerate =
     !!password &&
     !!passphrase &&
-    (version === "v1" || (!!normalizeSite(site) && counterValue !== undefined))
+    !!normalizeSite(site) &&
+    counterValue !== undefined
 
   const generateHashedPassword = async () => {
     if (!canGenerate) return
@@ -86,16 +85,13 @@ const Home: React.FC = () => {
     setIsGenerating(true)
 
     try {
-      const result =
-        version === "v1"
-          ? await generateHash(password, passphrase)
-          : await generateHashV2(
-              password,
-              passphrase,
-              site,
-              counterValue!,
-              version
-            )
+      const result = await generateHashV2(
+        password,
+        passphrase,
+        site,
+        counterValue!,
+        version
+      )
 
       if (id !== generationId.current) return
 
@@ -198,37 +194,35 @@ const Home: React.FC = () => {
           }}
         />
 
-        {version !== "v1" && (
-          <View style={homeStyles.row}>
-            <View style={homeStyles.siteInput}>
-              <AppTextInput
-                placeholder="Site name (e.g. gmail)"
-                placeholderTextColor={colors.text}
-                style={globalStyles.input}
-                value={site}
-                onChangeText={(value) => {
-                  setSite(value)
-                  resetResult()
-                }}
-              />
-            </View>
-
-            <View style={homeStyles.counterInput}>
-              <AppTextInput
-                placeholder="#"
-                placeholderTextColor={colors.text}
-                style={globalStyles.input}
-                value={counter}
-                keyboardType="number-pad"
-                maxLength={6}
-                onChangeText={(value) => {
-                  setCounter(value)
-                  resetResult()
-                }}
-              />
-            </View>
+        <View style={homeStyles.row}>
+          <View style={homeStyles.siteInput}>
+            <AppTextInput
+              placeholder="Site name (e.g. gmail)"
+              placeholderTextColor={colors.text}
+              style={globalStyles.input}
+              value={site}
+              onChangeText={(value) => {
+                setSite(value)
+                resetResult()
+              }}
+            />
           </View>
-        )}
+
+          <View style={homeStyles.counterInput}>
+            <AppTextInput
+              placeholder="#"
+              placeholderTextColor={colors.text}
+              style={globalStyles.input}
+              value={counter}
+              keyboardType="number-pad"
+              maxLength={6}
+              onChangeText={(value) => {
+                setCounter(value)
+                resetResult()
+              }}
+            />
+          </View>
+        </View>
 
         <TouchableOpacity
           style={[
