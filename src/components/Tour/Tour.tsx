@@ -4,29 +4,18 @@ import { Feather } from "@expo/vector-icons"
 import { colors } from "../../themes/Dark"
 import { globalStyles } from "../../styles/Global"
 import { tourStyles } from "./Tour.styles"
+import { t } from "../../i18n"
 
 type TourStep = {
   icon: React.ComponentProps<typeof Feather>["name"]
-  title: string
-  body: string
+  titleKey: string
+  bodyKey: string
 }
 
 const steps: TourStep[] = [
-  {
-    icon: "key",
-    title: "Welcome to Crypto Pass",
-    body: "Crypto Pass creates strong passwords from things you can remember. Type the same inputs and you get the same password, on any phone, every time.",
-  },
-  {
-    icon: "shield",
-    title: "v2 (recommended)",
-    body: "Uses your passphrase, password, the site name and a counter, so every site gets its own password. To change one site's password, raise its counter. It can take 1–2 seconds on older phones.",
-  },
-  {
-    icon: "zap",
-    title: "v2 fast",
-    body: "Works like v2 with half the memory: about twice as fast, slightly less resistant to attacks. It creates different passwords than v2, so always use the same version for a site.",
-  },
+  { icon: "key", titleKey: "tour.welcomeTitle", bodyKey: "tour.welcomeBody" },
+  { icon: "shield", titleKey: "tour.v2Title", bodyKey: "tour.v2Body" },
+  { icon: "zap", titleKey: "tour.v2FastTitle", bodyKey: "tour.v2FastBody" },
 ]
 
 type TourProps = {
@@ -60,20 +49,12 @@ const Tour: React.FC<TourProps> = ({ visible, onFinish }: TourProps) => {
           {isWarning ? (
             <>
               <Feather name="alert-triangle" size={56} color={colors.warning} />
-              <Text style={tourStyles.title}>Nothing is saved</Text>
-              <Text style={tourStyles.body}>
-                Crypto Pass never stores or sends anything: not your passphrase,
-                password or site names, and not the passwords it creates.
-              </Text>
+              <Text style={tourStyles.title}>{t("tour.warningTitle")}</Text>
+              <Text style={tourStyles.body}>{t("tour.warningBody")}</Text>
               <Text style={[tourStyles.body, tourStyles.warningText]}>
-                If you forget any of them, or which version and counter you
-                used, the password is lost forever. Nobody can recover it.
+                {t("tour.warningLoss")}
               </Text>
-              <Text style={tourStyles.tip}>
-                Tip: write down the version and counter you use for each site.
-                They are not secret. Never write down your passphrase and
-                password.
-              </Text>
+              <Text style={tourStyles.tip}>{t("tour.warningTip")}</Text>
 
               <TouchableOpacity
                 style={tourStyles.checkboxRow}
@@ -85,15 +66,15 @@ const Tour: React.FC<TourProps> = ({ visible, onFinish }: TourProps) => {
                   color={colors.text}
                 />
                 <Text style={tourStyles.checkboxText}>
-                  I understand that a forgotten input means a lost password
+                  {t("tour.acknowledge")}
                 </Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
               <Feather name={step.icon} size={56} color={colors.text} />
-              <Text style={tourStyles.title}>{step.title}</Text>
-              <Text style={tourStyles.body}>{step.body}</Text>
+              <Text style={tourStyles.title}>{t(step.titleKey)}</Text>
+              <Text style={tourStyles.body}>{t(step.bodyKey)}</Text>
             </>
           )}
         </View>
@@ -119,7 +100,7 @@ const Tour: React.FC<TourProps> = ({ visible, onFinish }: TourProps) => {
           onPress={() => (isWarning ? finish() : setStepIndex(stepIndex + 1))}
         >
           <Text style={globalStyles.buttonText}>
-            {isWarning ? "Start using Crypto Pass" : "Next"}
+            {isWarning ? t("tour.start") : t("tour.next")}
           </Text>
         </TouchableOpacity>
 
@@ -134,13 +115,13 @@ const Tour: React.FC<TourProps> = ({ visible, onFinish }: TourProps) => {
                 stepIndex === 0 && tourStyles.hidden,
               ]}
             >
-              Back
+              {t("tour.back")}
             </Text>
           </TouchableOpacity>
 
           {!isWarning && (
             <TouchableOpacity onPress={() => setStepIndex(warningIndex)}>
-              <Text style={tourStyles.secondaryText}>Skip</Text>
+              <Text style={tourStyles.secondaryText}>{t("tour.skip")}</Text>
             </TouchableOpacity>
           )}
         </View>
