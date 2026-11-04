@@ -9,6 +9,7 @@ export const homeStyles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   image: {
+    alignSelf: "center",
     width: 300,
     height: 300,
   },
