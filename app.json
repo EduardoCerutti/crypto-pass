@@ -11,7 +11,8 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "techstuff.cryptopass"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +46,8 @@
           "imageWidth": 200
         }
       ],
-      "react-native-quick-crypto"
+      "react-native-quick-crypto",
+      "./plugins/with-scene-lifecycle"
     ]
   }
 }
